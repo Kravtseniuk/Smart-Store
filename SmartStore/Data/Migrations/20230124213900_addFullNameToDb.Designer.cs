@@ -10,8 +10,8 @@ using SmartStore.Data;
 namespace SmartStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230124211643_addFullNameToUsersTable1")]
-    partial class addFullNameToUsersTable1
+    [Migration("20230124213900_addFullNameToDb")]
+    partial class addFullNameToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -282,7 +282,7 @@ namespace SmartStore.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");

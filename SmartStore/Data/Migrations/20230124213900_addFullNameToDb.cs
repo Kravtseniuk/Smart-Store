@@ -2,7 +2,7 @@
 
 namespace SmartStore.Data.Migrations
 {
-    public partial class addFullNameToUsersTable1 : Migration
+    public partial class addFullNameToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace SmartStore.Data.Migrations
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "Name",
+                name: "FullName",
                 table: "AspNetUsers",
                 nullable: true);
         }
@@ -25,7 +25,7 @@ namespace SmartStore.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
-                name: "Name",
+                name: "FullName",
                 table: "AspNetUsers");
         }
     }

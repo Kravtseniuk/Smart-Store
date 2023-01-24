@@ -4,6 +4,6 @@ namespace SmartStore.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public string Name { get; set; }
+        public string FullName { get; set; }
     }
 }
