@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace SmartStore.Models.ViewModels
+namespace SmartStore_Models.ViewModels
 {
     public class ProductVM
     {

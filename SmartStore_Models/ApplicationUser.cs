@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace SmartStore.Models
+namespace SmartStore_Models
 {
     public class ApplicationUser : IdentityUser
     {

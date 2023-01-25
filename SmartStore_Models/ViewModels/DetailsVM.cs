@@ -1,4 +1,4 @@
-﻿namespace SmartStore.Models.ViewModels
+﻿namespace SmartStore_Models.ViewModels
 {
     public class DetailsVM
     {

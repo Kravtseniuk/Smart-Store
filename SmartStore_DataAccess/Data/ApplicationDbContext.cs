@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SmartStore.Models;
+using SmartStore_Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SmartStore.Data
+namespace SmartStore_DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext
     {

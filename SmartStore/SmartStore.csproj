@@ -24,4 +24,10 @@
     <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SmartStore_DataAccess\SmartStore_DataAccess.csproj" />
+    <ProjectReference Include="..\SmartStore_Models\SmartStore_Models.csproj" />
+    <ProjectReference Include="..\SmartStore_Utility\SmartStore_Utility.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace SmartStore.Utility
+﻿namespace SmartStore_Utility
 {
     public class MailJetSettings
     {

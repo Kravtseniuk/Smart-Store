@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SmartStore.Data;
-using SmartStore.Utility;
+using SmartStore_DataAccess;
+using SmartStore_Utility;
 using System;
 
 namespace SmartStore

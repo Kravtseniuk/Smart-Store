@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartStore.Data;
-using SmartStore.Models;
+using SmartStore_DataAccess;
+using SmartStore_Models;
+using SmartStore_Utility;
 using System.Collections.Generic;
 
 namespace SmartStore.Controllers

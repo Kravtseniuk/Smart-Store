@@ -1,6 +1,6 @@
 using System;
 
-namespace SmartStore.Models
+namespace SmartStore_Models
 {
     public class ErrorViewModel
     {

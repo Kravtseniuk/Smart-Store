@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SmartStore.Data.Migrations
+namespace SmartStore_DataAccess.Migrations
 {
     public partial class addProductToDb : Migration
     {

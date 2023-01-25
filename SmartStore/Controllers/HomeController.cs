@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SmartStore.Data;
-using SmartStore.Models;
-using SmartStore.Models.ViewModels;
-using SmartStore.Utility;
+using SmartStore_DataAccess;
+using SmartStore_Models;
+using SmartStore_Models.ViewModels;
+using SmartStore_Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

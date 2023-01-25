@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
-namespace SmartStore.Utility
+namespace SmartStore_Utility
 {
     public class EmailSender : IEmailSender
     {
