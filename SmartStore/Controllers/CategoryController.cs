@@ -39,12 +39,11 @@ namespace SmartStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _catRepo.Update(obj);
+                _catRepo.Add(obj);
                 _catRepo.Save();
                 return RedirectToAction("Index");
             }
             return View(obj);
-
         }
 
 
