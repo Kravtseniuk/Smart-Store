@@ -9,5 +9,7 @@
         public const string CustomerRole = "CustomerRole";
 
         public const string EmailAdmin = "kravtseniuk@gmail.com";
+
+        public const string CategoryName = "Category";
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SmartStore_DataAccess;
+using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_Models;
 using SmartStore_Models.ViewModels;
 using SmartStore_Utility;
@@ -17,18 +18,18 @@ namespace SmartStore.Controllers
     [Authorize(Roles = WC.AdminRole)]
     public class ProductController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IProductRepository _prodRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+        public ProductController(IProductRepository prodRepo, IWebHostEnvironment webHostEnvironment)
         {
-            _db = db;
+            _prodRepo = prodRepo;
             _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Product> objList = _db.Product.Include(u => u.Category);
+            IEnumerable<Product> objList = _prodRepo.GetAll(includeProperties:"Category");
 
             return View(objList);
         }
@@ -38,11 +39,7 @@ namespace SmartStore.Controllers
             ProductVM productVM = new ProductVM()
             {
                 Product = new Product(),
-                CategorySelectList = _db.Category.Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                })
+                CategorySelectList = _prodRepo.GetAllDropdownList(WC.CategoryName)
             };
 
             if (id == null)
@@ -52,7 +49,7 @@ namespace SmartStore.Controllers
             }
             else
             {
-                productVM.Product = _db.Product.Find(id);
+                productVM.Product = _prodRepo.Find(id.GetValueOrDefault());
                 if (productVM.Product == null)
                 {
                     return NotFound();
@@ -85,12 +82,12 @@ namespace SmartStore.Controllers
 
                     productVM.Product.Image = fileName + extension;
 
-                    _db.Product.Add(productVM.Product);
+                    _prodRepo.Add(productVM.Product);
                 }
                 else
                 {
                     //updating
-                    var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
+                    var objFromDb = _prodRepo.FirstOrDefault(u => u.Id == productVM.Product.Id, isTracking:false);
 
                     if (files.Count > 0)
                     {
@@ -116,18 +113,15 @@ namespace SmartStore.Controllers
                     {
                         productVM.Product.Image = objFromDb.Image;
                     }
-                    _db.Product.Update(productVM.Product);
+                    _prodRepo.Update(productVM.Product);
                 }
 
 
-                _db.SaveChanges();
+                _prodRepo.Save();
                 return RedirectToAction("Index");
             }
-            productVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
-            {
-                Text = i.Name,
-                Value = i.Id.ToString()
-            });
+
+            productVM.CategorySelectList = _prodRepo.GetAllDropdownList(WC.CategoryName);
 
             return View(productVM);
         }
@@ -139,7 +133,7 @@ namespace SmartStore.Controllers
             {
                 return NotFound();
             }
-            Product product = _db.Product.Include(u => u.Category).FirstOrDefault(u => u.Id == id);
+            Product product = _prodRepo.FirstOrDefault(u => u.Id == id, includeProperties: "Category");
 
             if (product == null)
             {
@@ -154,7 +148,7 @@ namespace SmartStore.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var obj = _db.Product.Find(id);
+            var obj = _prodRepo.Find(id.GetValueOrDefault());
             if (obj == null)
             {
                 return NotFound();
@@ -168,13 +162,9 @@ namespace SmartStore.Controllers
                 System.IO.File.Delete(oldFile);
             }
 
-
-            _db.Product.Remove(obj);
-            _db.SaveChanges();
+            _prodRepo.Remove(obj);
+            _prodRepo.Save();
             return RedirectToAction("Index");
-
-
         }
-
     }
 }
