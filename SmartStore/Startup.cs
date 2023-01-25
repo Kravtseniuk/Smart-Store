@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmartStore_DataAccess;
+using SmartStore_DataAccess.Repository;
+using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_Utility;
 using System;
 
@@ -29,6 +31,10 @@ namespace SmartStore
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<IdentityUser,IdentityRole>()
+                .AddDefaultTokenProviders().AddDefaultUI()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddHttpContextAccessor();
             services.AddSession(Options =>
             {
@@ -37,9 +43,10 @@ namespace SmartStore
                 Options.Cookie.IsEssential = true;
             });
 
-            services.AddIdentity<IdentityUser,IdentityRole>()
-                .AddDefaultTokenProviders().AddDefaultUI()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IInquiryHeaderRepository, InquiryHeaderRepository>();
+            services.AddScoped<IInquiryDetailRepository, InquiryDetailRepository>();
 
             services.AddTransient<IEmailSender, EmailSender>();
 
