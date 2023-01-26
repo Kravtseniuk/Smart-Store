@@ -5,6 +5,11 @@ namespace SmartStore_Models
 {
     public class Product
     {
+        public Product()
+        {
+            TempQuantity = 1;
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -25,5 +30,9 @@ namespace SmartStore_Models
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
+
+        [NotMapped]
+        [Range(1,10000)]
+        public int TempQuantity { get; set; }
     }
 }
