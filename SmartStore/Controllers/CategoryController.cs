@@ -41,8 +41,10 @@ namespace SmartStore.Controllers
             {
                 _catRepo.Add(obj);
                 _catRepo.Save();
+                TempData[WC.Success] = "Категорія успішно добавлена";
                 return RedirectToAction("Index");
             }
+            TempData[WC.Success] = "Помилка створення категорії";
             return View(obj);
         }
 
@@ -72,6 +74,7 @@ namespace SmartStore.Controllers
             {
                 _catRepo.Update(obj);
                 _catRepo.Save();
+                TempData[WC.Success] = "Дія успішно виконана";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -104,11 +107,10 @@ namespace SmartStore.Controllers
             {
                 return NotFound();
             }
+            TempData[WC.Success] = "Дія успішно виконана";
             _catRepo.Remove(obj);
             _catRepo.Save();
             return RedirectToAction("Index");
-
-
         }
     }
 }

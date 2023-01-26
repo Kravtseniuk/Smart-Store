@@ -69,7 +69,7 @@ namespace SmartStore.Controllers
             _inqDRepo.RemoveRange(inquiryDetails);
             _inqHRepo.Remove(inquiryHeader);
             _inqHRepo.Save();
-
+            TempData[WC.Success] = "Дія успішно виконана";
             return RedirectToAction(nameof(Index));
         }
 

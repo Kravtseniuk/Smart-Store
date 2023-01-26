@@ -115,7 +115,7 @@ namespace SmartStore.Controllers
                     }
                     _prodRepo.Update(productVM.Product);
                 }
-
+                TempData[WC.Success] = "Дія успішно виконана";
 
                 _prodRepo.Save();
                 return RedirectToAction("Index");
@@ -164,6 +164,7 @@ namespace SmartStore.Controllers
 
             _prodRepo.Remove(obj);
             _prodRepo.Save();
+            TempData[WC.Success] = "Дія успішно виконана";
             return RedirectToAction("Index");
         }
     }
