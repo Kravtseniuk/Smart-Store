@@ -54,6 +54,11 @@ namespace SmartStore
             services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 
+            services.AddAuthentication().AddFacebook(Options =>
+            {
+                Options.AppId = "3506896386210049";
+                Options.AppSecret = "20040523d6de9dbe4dd10a30bd83ec5c";
+            });
 
             services.AddTransient<IEmailSender, EmailSender>();
 
