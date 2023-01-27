@@ -12,6 +12,7 @@ using SmartStore_DataAccess;
 using SmartStore_DataAccess.Repository;
 using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_Utility;
+using SmartStore_Utility.BrainTree;
 using System;
 
 namespace SmartStore
@@ -43,12 +44,13 @@ namespace SmartStore
                 Options.Cookie.IsEssential = true;
             });
 
+            services.Configure<BrainTreeSettings>(Configuration.GetSection("BrainTree"));
+            services.AddSingleton<IBrainTreeGate, BrainTreeGate>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IInquiryHeaderRepository, InquiryHeaderRepository>();
             services.AddScoped<IInquiryDetailRepository, InquiryDetailRepository>();
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-
             services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 
