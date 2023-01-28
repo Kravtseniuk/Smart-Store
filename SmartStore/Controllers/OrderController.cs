@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using SmartStore_DataAccess.Repository.IRepository;
+using SmartStore_Models;
 using SmartStore_Models.ViewModels;
 using SmartStore_Utility;
 using SmartStore_Utility.BrainTree;
+using System;
 using System.Linq;
 
 namespace SmartStore.Controllers
@@ -69,6 +71,49 @@ namespace SmartStore.Controllers
             };
 
             return View(OrderVM);
+        }
+
+        [HttpPost]
+        public IActionResult StartProcessing()
+        {
+            OrderHeader orderHeader = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = WC.StatusInProcess;
+            _orderHRepo.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult ShipOrder()
+        {
+            OrderHeader orderHeader = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = WC.StatusInProcess;
+            orderHeader.ShippingDate = DateTime.Now;
+            _orderHRepo.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult CancelOrder()
+        {
+            OrderHeader orderHeader = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+
+            var gateway = _brain.GetGateway();
+            Transaction transaction = gateway.Transaction.Find(orderHeader.TransactionId);
+
+            if (transaction.Status == TransactionStatus.AUTHORIZED || transaction.Status == TransactionStatus.SUBMITTED_FOR_SETTLEMENT)
+            {
+                //no refund
+                Result<Transaction> resultvoid = gateway.Transaction.Void(orderHeader.TransactionId);
+            }
+            else
+            {
+                //refund
+                Result<Transaction> resultRefund = gateway.Transaction.Refund(orderHeader.TransactionId);
+            }
+            orderHeader.OrderStatus = WC.StatusRefunded;
+            _orderHRepo.Save();
+            TempData[WC.Success] = "Замовлення відмінено";
+            return RedirectToAction(nameof(Index));
         }
     }
 }
