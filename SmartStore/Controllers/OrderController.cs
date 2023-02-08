@@ -1,4 +1,5 @@
 ﻿using Braintree;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using System.Linq;
 
 namespace SmartStore.Controllers
 {
+    [Authorize(Roles = WC.AdminRole)]
     public class OrderController : Controller
     {
         private readonly IOrderHeaderRepository _orderHRepo;
@@ -79,6 +81,7 @@ namespace SmartStore.Controllers
             OrderHeader orderHeader = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
             orderHeader.OrderStatus = WC.StatusInProcess;
             _orderHRepo.Save();
+            TempData[WC.Success] = "Замовлення обробляється";
             return RedirectToAction(nameof(Index));
         }
 
@@ -89,6 +92,7 @@ namespace SmartStore.Controllers
             orderHeader.OrderStatus = WC.StatusInProcess;
             orderHeader.ShippingDate = DateTime.Now;
             _orderHRepo.Save();
+            TempData[WC.Success] = "Замовлення відправлено успішно";
             return RedirectToAction(nameof(Index));
         }
 
@@ -114,6 +118,23 @@ namespace SmartStore.Controllers
             _orderHRepo.Save();
             TempData[WC.Success] = "Замовлення відмінено";
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult UpdateOrderDetail()
+        {
+            OrderHeader orderHeaderFromDb = _orderHRepo.FirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+            orderHeaderFromDb.FullName = OrderVM.OrderHeader.FullName;
+            orderHeaderFromDb.PhoneNumber = OrderVM.OrderHeader.PhoneNumber;
+            orderHeaderFromDb.StreetAddress = OrderVM.OrderHeader.StreetAddress;
+            orderHeaderFromDb.City = OrderVM.OrderHeader.City;
+            orderHeaderFromDb.PostalCode = OrderVM.OrderHeader.PostalCode;
+            orderHeaderFromDb.State = OrderVM.OrderHeader.State;
+            orderHeaderFromDb.Email = OrderVM.OrderHeader.Email;
+
+            _orderHRepo.Save();
+            TempData[WC.Success] = "Деталі замовлення успішно оновлені";
+            return RedirectToAction("Details", "Order", new { id = orderHeaderFromDb.Id });
         }
     }
 }
