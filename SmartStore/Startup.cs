@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmartStore_DataAccess;
+using SmartStore_DataAccess.Initializer;
 using SmartStore_DataAccess.Repository;
 using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_Utility;
@@ -36,6 +37,9 @@ namespace SmartStore
                 .AddDefaultTokenProviders().AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddDistributedMemoryCache();
             services.AddHttpContextAccessor();
             services.AddSession(Options =>
             {
@@ -53,6 +57,7 @@ namespace SmartStore
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddAuthentication().AddFacebook(Options =>
             {
@@ -60,13 +65,11 @@ namespace SmartStore
                 Options.AppSecret = "20040523d6de9dbe4dd10a30bd83ec5c";
             });
 
-            services.AddTransient<IEmailSender, EmailSender>();
-
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -78,20 +81,21 @@ namespace SmartStore
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            dbInitializer.Initialize();
             app.UseSession();
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }
