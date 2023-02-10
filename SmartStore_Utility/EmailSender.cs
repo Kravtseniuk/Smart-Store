@@ -36,6 +36,17 @@ namespace SmartStore_Utility
                 Resource = Send.Resource,
             }
              .Property(Send.Messages, new JArray {
+            .Property(Send.Messages, new JArray {
+            new JObject {
+            {
+                "From",
+            new JObject {
+                {"Email", "grejsonricard@gmail.com"},
+                {"Name", "Richard"}
+            }
+            }, {
+                "To",
+            new JArray {
                 new JObject {
                 {
                     "From",
@@ -43,6 +54,8 @@ namespace SmartStore_Utility
                     {"Email", "kravtseniuk@gmail.com"},
                     {"Name", "Ihor"}
                 }
+                    "Email",
+                    email
                 }, {
                     "To",
                 new JArray {
@@ -57,18 +70,31 @@ namespace SmartStore_Utility
                         "DotNetMastery"
                         }
                     }
+                "Name",
+                "Shop buyer"
                 }
                     }, {
                     "Subject",
                     subject
                 },
                 {
+                }
+            }
+            }, {
+                "Subject",
+                subject
+            }, {
                 "HTMLPart",
                 body
                 },
                 }
              });
+               },
+            }
+            });
+
             await client.PostAsync(request);
         }
     }
+}
 }
