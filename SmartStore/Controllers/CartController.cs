@@ -1,4 +1,11 @@
-﻿using Braintree;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Braintree;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,48 +16,40 @@ using SmartStore_Models;
 using SmartStore_Models.ViewModels;
 using SmartStore_Utility;
 using SmartStore_Utility.BrainTree;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartStore.Controllers
 {
     [Authorize]
     public class CartController : Controller
     {
-        private readonly IProductRepository _prodRepo;
-        private readonly ICategoryRepository _catRepo;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IEmailSender _emailSender;
         private readonly IApplicationUserRepository _userRepo;
+        private readonly IProductRepository _prodRepo;
         private readonly IInquiryHeaderRepository _inqHRepo;
         private readonly IInquiryDetailRepository _inqDRepo;
         private readonly IOrderHeaderRepository _orderHRepo;
         private readonly IOrderDetailRepository _orderDRepo;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IEmailSender _emailSender;
         private readonly IBrainTreeGate _brain;
 
         [BindProperty]
         public ProductUserVM ProductUserVM { get; set; }
-        public CartController(IProductRepository prodRepo, IWebHostEnvironment webHostEnvironment,
-            IEmailSender emailSender, IApplicationUserRepository userRepo, ICategoryRepository catRepo,
-            IInquiryHeaderRepository inqHRepo, IInquiryDetailRepository inqDRepo, IOrderHeaderRepository orderHRepo,
-            IOrderDetailRepository orderDRepo, IBrainTreeGate brain)
+        public CartController(IWebHostEnvironment webHostEnvironment, IEmailSender emailSender,
+            IApplicationUserRepository userRepo, IProductRepository prodRepo,
+            IInquiryHeaderRepository inqHRepo, IInquiryDetailRepository inqDRepo,
+            IOrderHeaderRepository orderHRepo, IOrderDetailRepository orderDRepo, IBrainTreeGate brain)
         {
             _webHostEnvironment = webHostEnvironment;
             _emailSender = emailSender;
-            _prodRepo = prodRepo;
-            _userRepo = userRepo;
-            _catRepo = catRepo;
-            _inqHRepo = inqHRepo;
-            _inqDRepo = inqDRepo;
-            _orderHRepo = orderHRepo;
-            _orderDRepo = orderDRepo;
             _brain = brain;
+            _userRepo = userRepo;
+            _prodRepo = prodRepo;
+            _inqDRepo = inqDRepo;
+            _inqHRepo = inqHRepo;
+            _orderDRepo = orderDRepo;
+            _orderHRepo = orderHRepo;
         }
+
         public IActionResult Index()
         {
 
@@ -84,26 +83,21 @@ namespace SmartStore.Controllers
             List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
             foreach (Product prod in ProdList)
             {
-                shoppingCartList.Add(new ShoppingCart
-                {
-                    ProductId = prod.Id,
-                    Quantity = prod.TempQuantity
-                });
+                shoppingCartList.Add(new ShoppingCart { ProductId = prod.Id, Quantity = prod.TempQuantity });
             }
 
             HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
-
             return RedirectToAction(nameof(Summary));
         }
 
-        //SUMMARY - GET
+
         public IActionResult Summary()
         {
             ApplicationUser applicationUser;
 
             if (User.IsInRole(WC.AdminRole))
             {
-                if (HttpContext.Session.Get<int>(WC.SessionInquiryId) !=0)
+                if (HttpContext.Session.Get<int>(WC.SessionInquiryId) != 0)
                 {
                     //cart has been loaded using an inquiry
                     InquiryHeader inquiryHeader = _inqHRepo.FirstOrDefault(u => u.Id == HttpContext.Session.Get<int>(WC.SessionInquiryId));
@@ -122,13 +116,21 @@ namespace SmartStore.Controllers
                 var gateway = _brain.GetGateway();
                 var clientToken = gateway.ClientToken.Generate();
                 ViewBag.ClientToken = clientToken;
+
             }
             else
             {
+                //add to client
+                var gateway = _brain.GetGateway();
+                var clientToken = gateway.ClientToken.Generate();
+                ViewBag.ClientToken = clientToken;
+
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                applicationUser = _userRepo.FirstOrDefault(u=>u.Id==claim.Value);
+
+                applicationUser = _userRepo.FirstOrDefault(u => u.Id == claim.Value);
             }
+
 
             List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
             if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart) != null
@@ -143,8 +145,9 @@ namespace SmartStore.Controllers
 
             ProductUserVM = new ProductUserVM()
             {
-                ApplicationUser = applicationUser
+                ApplicationUser = applicationUser,
             };
+
 
             foreach (var cartObj in shoppingCartList)
             {
@@ -156,18 +159,16 @@ namespace SmartStore.Controllers
             return View(ProductUserVM);
         }
 
-        //SUMMARY - GET
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
-        public async Task<IActionResult> SummaryPost(IFormCollection collection,  ProductUserVM ProductUserVM)
+        public async Task<IActionResult> SummaryPost(IFormCollection collection, ProductUserVM ProductUserVM)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             if (User.IsInRole(WC.AdminRole))
             {
-                //we need to create an order
                 OrderHeader orderHeader = new OrderHeader()
                 {
                     CreatedByUserId = claim.Value,
@@ -225,9 +226,8 @@ namespace SmartStore.Controllers
                     orderHeader.OrderStatus = WC.StatusCancelled;
                 }
                 _orderHRepo.Save();
+
                 return RedirectToAction(nameof(InquiryConfirmation), new { id = orderHeader.Id });
-
-
             }
             else
             {
@@ -269,7 +269,6 @@ namespace SmartStore.Controllers
                     Email = ProductUserVM.ApplicationUser.Email,
                     PhoneNumber = ProductUserVM.ApplicationUser.PhoneNumber,
                     InquiryDate = DateTime.Now
-
                 };
 
                 _inqHRepo.Add(inquiryHeader);
@@ -292,7 +291,6 @@ namespace SmartStore.Controllers
 
             return RedirectToAction(nameof(InquiryConfirmation));
         }
-
 
         public IActionResult InquiryConfirmation(int id = 0)
         {
@@ -324,22 +322,18 @@ namespace SmartStore.Controllers
             List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
             foreach (Product prod in ProdList)
             {
-                shoppingCartList.Add(new ShoppingCart
-                {
-                    ProductId = prod.Id,
-                    Quantity = prod.TempQuantity
-                });
+                shoppingCartList.Add(new ShoppingCart { ProductId = prod.Id, Quantity = prod.TempQuantity });
             }
 
             HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
-
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Clear(int id)
+
+        public IActionResult Clear()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
