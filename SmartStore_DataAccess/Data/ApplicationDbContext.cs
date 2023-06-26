@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SmartStore_Models;
 
 namespace SmartStore_DataAccess.Data
 {
@@ -9,5 +10,7 @@ namespace SmartStore_DataAccess.Data
             : base(options)
         {
         }
+
+        public DbSet<Category> Categories { get; set; }
     }
 }
