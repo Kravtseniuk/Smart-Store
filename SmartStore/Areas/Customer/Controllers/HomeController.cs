@@ -2,8 +2,9 @@
 using SmartStore.Models;
 using System.Diagnostics;
 
-namespace SmartStore.Controllers
+namespace SmartStore.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
