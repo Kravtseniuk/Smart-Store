@@ -1,0 +1,164 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 992px) {
+    .navbar-nav.me-auto {
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+    }
+
+        .navbar-nav.me-auto .nav-item:last-child {
+            margin-left: auto;
+        }
+}
+
+@media (max-width: 991px) {
+    .navbar-nav.me-auto .nav-item:last-child .form-control {
+        width: 100%;
+    }
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.text-light:hover {
+    color: red;
+}
+
+.form-control {
+    width: 450px;
+    height: 40px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #ffffff;
+}
+
+.sharp-button {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: darkturquoise;
+}
+
+.btn-success {
+    background-color: #02b900;
+    border: none;
+}
+
+
+/*/////PRICE/////*/
+
+#price-slider {
+    -webkit-appearance: none; /* Убирает стандартный вид ползунка в Chrome и Safari */
+    width: 100%;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+    #price-slider::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Убирает стандартный вид ползунка в Chrome и Safari */
+        width: 20px;
+        height: 20px;
+        background-color: #4c9aff;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #price-slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background-color: #4c9aff;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+
+/**/
+
+/*//////****** HEADER ICONS //////*******/
+
+.cart-icon,
+.heart-icon,
+.user-icon {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.message-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.cart-icon {
+    color: #ffffff;
+    font-size: 20px;
+    position: relative;
+}
+
+    .cart-icon::after {
+        content: "";
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 8px;
+        height: 8px;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+/*//////////////////////////////////*/
+
+
+.back-hf-color {
+    background-color: #242424;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background: url('/images/dust_scratches.png');
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+/*HOME Index STYLE*/
+
+.filter-container {
+    width: 200px;
+    padding-top: 20px;
+}
+
+.attr-name-font {
+    font-size: 20px;
+}
