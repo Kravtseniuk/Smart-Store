@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SmartStore.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
    
@@ -20,6 +23,13 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
+                <div class="dropdown">
+                    <div class="dropdown-select">Адмін</div>
+                    <ul class="dropdown-list">
+                        <li><a asp-area="Admin" asp-controller="Category" asp-action="Index">Категорії</a></li>
+                    </ul>
+                </div>
 
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
@@ -58,7 +68,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted back-hf-color">
         <div class="container">
             &copy; 2023 - SmartStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
