@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartStore_Models\SmartStore_Models.csproj" />
+    <ProjectReference Include="..\SmartStore_Utility\SmartStore_Utility.csproj" />
   </ItemGroup>
 
 </Project>
