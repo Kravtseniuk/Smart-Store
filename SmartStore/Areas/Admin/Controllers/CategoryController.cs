@@ -7,16 +7,16 @@ namespace SmartStore.Areas.Admin.Controllers
     [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _catRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryController(ICategoryRepository catRepo)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _catRepo = catRepo;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> objList = _catRepo.GetAll();
+            IEnumerable<Category> objList = _unitOfWork.Category.GetAll();
             return View(objList);
         }
 
@@ -35,8 +35,8 @@ namespace SmartStore.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _catRepo.Add(obj);
-                _catRepo.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Category.Save();
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -50,7 +50,7 @@ namespace SmartStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var obj = _catRepo.Find(id.GetValueOrDefault());
+            var obj = _unitOfWork.Category.Find(id.GetValueOrDefault());
             if (obj == null)
             {
                 return NotFound();
@@ -66,8 +66,8 @@ namespace SmartStore.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _catRepo.Update(obj);
-                _catRepo.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Category.Save();
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -81,7 +81,7 @@ namespace SmartStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var obj = _catRepo.Find(id.GetValueOrDefault());
+            var obj = _unitOfWork.Category.Find(id.GetValueOrDefault());
             if (obj == null)
             {
                 return NotFound();
@@ -95,13 +95,13 @@ namespace SmartStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var obj = _catRepo.Find(id.GetValueOrDefault());
+            var obj = _unitOfWork.Category.Find(id.GetValueOrDefault());
             if (obj == null)
             {
                 return NotFound();
             }
-            _catRepo.Remove(obj);
-            _catRepo.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Category.Save();
             return RedirectToAction("Index");
         }
     }
