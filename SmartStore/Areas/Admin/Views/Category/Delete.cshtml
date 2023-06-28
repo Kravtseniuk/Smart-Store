@@ -2,40 +2,44 @@
 
 <form method="post" asp-action="DeletePost">
     <input asp-for="Id" hidden />
-    <div class="border p-3 bg-white">
+    <div class="border p-3 bg-white mt-4">
 
-        <div class="form-group row">
-            <h2 class="text-info pl-3">Видалити категорію</h2>
+        <div class="form-group row text-start mb-4">
+            <h2 class="offset-4 col-8" style="color:red">Видалити категорію</h2>
+            <div class="line" style="height: 2px; background-color:red;"></div>
+            <hr>
         </div>
+
         <div class="row">
             <div class="col-8">
+
                 <div class="form-group row py-2">
-                    <div class="col-4">
+                    <div class="offset-4 col-8">
                         <label asp-for="Name"></label>
-                    </div>
-                    <div class="col-8">
                         <input asp-for="Name" disabled class="form-control" />
                     </div>
-
                 </div>
-                <div class="form-group row">
-                    <div class="col-4">
+
+                <div class="form-group row py-2">
+                    <div class="offset-4 col-8">
                         <label asp-for="DisplayOrder"></label>
-                    </div>
-                    <div class="col-8">
                         <input asp-for="DisplayOrder" disabled class="form-control" />
                     </div>
-
                 </div>
+
                 <div class="form-group row">
                     <div class="col-8 offset-4 row py-2">
 
                         <div class="col">
-                            <input type="submit" class="btn btn-danger w-100" value="Delete" />
+                            <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-arrow-left"></i> Повернутись</a>
                         </div>
+
                         <div class="col">
-                            <a asp-action="Index" class="btn btn-success w-100"><i class="fas fa-sign-out-alt"></i> Back</a>
+                            <button type="submit" class="btn btn-danger w-100">
+                                <i class="fas fa-trash-alt"></i> Видалити
+                            </button>
                         </div>
+                        
                     </div>
                 </div>
             </div>
