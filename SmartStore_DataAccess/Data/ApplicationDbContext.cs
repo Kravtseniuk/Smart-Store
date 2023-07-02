@@ -14,5 +14,7 @@ namespace SmartStore_DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductAttribute> ProductAttributes { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
     }
 }
