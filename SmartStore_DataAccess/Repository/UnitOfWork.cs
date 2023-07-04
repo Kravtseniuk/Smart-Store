@@ -15,11 +15,14 @@ namespace SmartStore_DataAccess.Repository
 
         public IProductRepository Product { get; private set; }
 
+        public IApplicationUserRepository User { get; private set; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Category = new CategoryRepository(_db);
             Product = new ProductRepository(_db);
+            User = new ApplicationUserRepository(_db);
         }
 
         public void Save()
