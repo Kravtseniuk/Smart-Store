@@ -4,6 +4,7 @@ using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_Models;
 using SmartStore_Models.ViewModels;
 using SmartStore_Utility;
+using System.Collections.Generic;
 
 namespace SmartStore.Areas.Admin.Controllers
 {
@@ -24,30 +25,6 @@ namespace SmartStore.Areas.Admin.Controllers
             IEnumerable<Product> objList = _unitOfWork.Product.GetAll(includeProperties: "Category");
 
             return View(objList);
-        }
-
-        public IActionResult Upsert(int? id)
-        {
-            ProductVM productVM = new ProductVM()
-            {
-                Product = new Product(),
-                CategorySelectList = _unitOfWork.Product.GetAllDropdownList(WC.CategoryName)
-            };
-
-            if (id == null)
-            {
-                //this is for create
-                return View(productVM);
-            }
-            else
-            {
-                productVM.Product = _unitOfWork.Product.Find(id.GetValueOrDefault());
-                if (productVM.Product == null)
-                {
-                    return NotFound();
-                }
-                return View(productVM);
-            }
         }
 
         public IActionResult Create()
