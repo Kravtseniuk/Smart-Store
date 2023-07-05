@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 
 namespace SmartStore_Models
 {
@@ -13,13 +15,12 @@ namespace SmartStore_Models
         [Key]
         public int Id { get; set; }
 
-        public string AttributeName { get; set; }
-
-        public string AttributeValue { get; set; }
+        public string AttributeNameAndValue { get; set; }
 
         public int ProductId { get; set; }
 
         [ForeignKey("ProductId")]
+        [ValidateNever]
         public virtual Product Product { get; set; }
     }
 }
