@@ -12,10 +12,10 @@ namespace SmartStore_DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
         public ICategoryRepository Category { get; private set; }
-
         public IProductRepository Product { get; private set; }
-
         public IApplicationUserRepository User { get; private set; }
+        public IInquiryHeaderRepository InquiryHeader { get; private set; }
+        public IInquiryDetailRepository InquiryDetail { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -23,6 +23,8 @@ namespace SmartStore_DataAccess.Repository
             Category = new CategoryRepository(_db);
             Product = new ProductRepository(_db);
             User = new ApplicationUserRepository(_db);
+            InquiryHeader = new InquiryHeaderRepository(_db);
+            InquiryDetail = new InquiryDetailRepository(_db);
         }
 
         public void Save()
