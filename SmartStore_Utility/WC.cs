@@ -14,5 +14,6 @@ namespace SmartStore_Utility
 
         public static string AdminRole = "Admin";
         public static string CustomerRole = "Customer";
+        public const string EmailAdmin = "grejsonricard@gmail.com";
     }
 }
