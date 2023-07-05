@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using SmartStore_DataAccess.Data;
 using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_DataAccess.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using SmartStore_Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddDefaultTokenProviders().AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -23,6 +26,7 @@ builder.Services.AddSession(Options => {
     Options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
@@ -41,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
