@@ -11,5 +11,8 @@ namespace SmartStore_Utility
         public const string ImagePath = @"\images\product\";
         public const string CategoryName = "Category";
         public const string SessionCart = "ShoppingCartSession";
+
+        public static string AdminRole = "Admin";
+        public static string CustomerRole = "Customer";
     }
 }
