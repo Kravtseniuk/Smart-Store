@@ -15,6 +15,7 @@ namespace SmartStore_DataAccess.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductAttribute> ProductAttributes { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
-
+        public DbSet<InquiryHeader> InquiryHeader { get; set; }
+        public DbSet<InquiryDetail> InquiryDetail { get; set; }
     }
 }
