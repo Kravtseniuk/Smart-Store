@@ -16,6 +16,8 @@ namespace SmartStore_DataAccess.Repository
         public IApplicationUserRepository User { get; private set; }
         public IInquiryHeaderRepository InquiryHeader { get; private set; }
         public IInquiryDetailRepository InquiryDetail { get; private set; }
+        public IOrderHeaderRepository OrderHeader { get; private set; }
+        public IOrderDetailRepository OrderDetail { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -25,6 +27,8 @@ namespace SmartStore_DataAccess.Repository
             User = new ApplicationUserRepository(_db);
             InquiryHeader = new InquiryHeaderRepository(_db);
             InquiryDetail = new InquiryDetailRepository(_db);
+            OrderHeader = new OrderHeaderRepository(_db);
+            OrderDetail = new OrderDetailRepository(_db);
         }
 
         public void Save()

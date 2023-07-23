@@ -13,6 +13,9 @@ namespace SmartStore_DataAccess.Repository.IRepository
         IApplicationUserRepository User { get; }
         IInquiryHeaderRepository InquiryHeader { get; }
         IInquiryDetailRepository InquiryDetail { get; }
+        IOrderHeaderRepository OrderHeader { get; }
+        IOrderDetailRepository OrderDetail { get; }
+        
 
         void Save();
     }
