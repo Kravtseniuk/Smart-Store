@@ -12,6 +12,11 @@ namespace SmartStore_Models
 {
     public class Product
     {
+        public Product()
+        {
+            TempQuantity = 1;
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -38,8 +43,10 @@ namespace SmartStore_Models
         [ValidateNever]
         public virtual Category Category { get; set; }
 
-        [ValidateNever]
         public virtual ICollection<ProductAttribute> ProductAttributes { get; set; }
 
+        [NotMapped]
+        [Range(1, 1000)]
+        public int TempQuantity { get; set; }
     }
 }

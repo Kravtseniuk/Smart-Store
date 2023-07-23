@@ -3,50 +3,44 @@
 <form method="post" asp-action="Create">
     <div class="border p-3 bg-white mt-4">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
-        <div class="form-group row text-start mb-4">
-            <h2 class="offset-4 col-8" style="color:limegreen">Створити категорію</h2>
-            <div class="line" style="height: 2px; background-color:limegreen;"></div>
-            <hr>
-        </div>
-        
-        <div class="row">
-            <div class="col-8">
-                
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <label asp-for="Name"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                </div>
 
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <label asp-for="DisplayOrder"></label>
-                        <input asp-for="DisplayOrder" class="form-control" />
-                        <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-                    </div>
-                </div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="billing-details">
+                        <div class="section-title">
+							<h3 class="title text-success">Створити категорію</h3>
+						</div>
+						
+                        <div class="form-group">
+                            <label asp-for="Name"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
 
-                <div class="form-group row py-2">
-                    <div class="col-8 offset-4 row">
-                        
-                        <div class="col">
-                            <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-arrow-left"></i> Повернутись</a>
-                        </div>
-                        
-                        <div class="col">
-                            <input type="submit" class="btn btn-success w-100" value="Створити" />
-                        </div>
-                        
+						
+                        <div class="form-group">
+                            <label asp-for="DisplayOrder"></label>
+                            <input asp-for="DisplayOrder" class="form-control" />
+                            <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <a asp-action="Index" class="primary-button"><i class="fas fa-arrow-left"></i> Повернутись</a>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <input type="submit" class="success-button" value="Створити" />
                     </div>
                 </div>
             </div>
-            <div class="col-4">
-                @* Keep this empty *@
-            </div>
-        </div>
+		</div>
+
     </div>
 
 </form>

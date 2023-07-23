@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_Models;
+using SmartStore_Utility;
 
 namespace SmartStore.Areas.Admin.Controllers
 {
@@ -37,8 +38,10 @@ namespace SmartStore.Areas.Admin.Controllers
             {
                 _unitOfWork.Category.Add(obj);
                 _unitOfWork.Category.Save();
+                TempData[WC.Success] = "Категорію успішно створено";
                 return RedirectToAction("Index");
             }
+            TempData[WC.Error] = "Помилка при стоверенні категорії";
             return View(obj);
         }
 
@@ -68,6 +71,7 @@ namespace SmartStore.Areas.Admin.Controllers
             {
                 _unitOfWork.Category.Update(obj);
                 _unitOfWork.Category.Save();
+                TempData[WC.Success] = "Категорія успішно відредагована";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -100,6 +104,7 @@ namespace SmartStore.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            TempData[WC.Success] = "Категорію видалено";
             _unitOfWork.Category.Remove(obj);
             _unitOfWork.Category.Save();
             return RedirectToAction("Index");
