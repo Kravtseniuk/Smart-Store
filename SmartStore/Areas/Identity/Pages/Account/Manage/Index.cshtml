@@ -1,27 +1,35 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3 class="text-center">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger text-center" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+
+            <div class="form-group">
+                <label asp-for="Username" class="form-label">Email користувача</label>
+                <input asp-for="Username" class="form-control" placeholder="Виберіть своє ім'я користувача." disabled />
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber" class="form-label">Номер телефону</label>
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Будь ласка, введіть свій номер телефону." />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+
         </form>
+
+        <div class="manage-footer">
+            <button id="update-profile-button" type="submit" class="turnback-button">Зберегти зміни</button>
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="exit-button">Вийти з акаунту</button>
+            </form>
+        </div>
+
     </div>
 </div>
 
