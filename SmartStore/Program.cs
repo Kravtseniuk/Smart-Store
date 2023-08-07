@@ -27,8 +27,6 @@ builder.Services.AddSession(Options => {
 });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
-    Options.AppId = "3506896386210049";
-    Options.AppSecret = "20040523d6de9dbe4dd10a30bd83ec5c";
 
 var app = builder.Build();
 
