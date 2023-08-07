@@ -1,0 +1,18 @@
+﻿@model SmartStore_Models.OrderHeader
+
+<div class="text-center">
+
+    @if (Model != null)
+    {
+        <h1 class="text-info"> Замовлення створено</h1>
+        <p>Замовлення #@Model.Id успішно створено!</p>
+    }
+    else
+    {
+
+
+        <h1 class="text-info">Підтвердження запиту</h1>
+
+        <p>Ми отримали ваш запит, і хтось із нашої команди незабаром зв’яжеться з вами!</p>
+    }
+</div>
