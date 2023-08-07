@@ -1,86 +1,89 @@
 ﻿@page
 @model RegisterModel
+@using SmartStore_Utility
 
-@if (User.IsInRole(SmartStore_Utility.WC.AdminRole))
-{
-    <h1>Зареєструвати акаунт адміністратора</h1>
-}
-else
-{
-    <h2>Зареєструвати новий акаунт</h2>
-}
+<section class="conteiner-logout-singup forms">
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Зареєструвати новий акаунт</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FullName" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.FullName">Ім'я та прізвище</label>
-                <span asp-validation-for="Input.FullName" class="text-danger"></span>
-            </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
+    <div class="form singup">
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.PhoneNumber">Номер телефону</label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Пароль</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Повторити пароль</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Вибрати інший спосіб реєстрації</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
+        <div class="form-content">
+
+            @if (User.IsInRole(WC.AdminRole))
+            {
+                <header class="login-header">Зареєструвати акаунт адміністратора</header>
             }
-        </section>
+            else
+            {
+                <header class="login-header">Зареєструватись</header>
+            }
+
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="login-form">
+
+                <div class="field input-field">
+                    <input asp-for="Input.FullName" type="text" placeholder="Ім'я та прізвище" class="input-email" />
+                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                </div>
+
+                <div class="field input-field">
+                    <input asp-for="Input.Email" type="email" placeholder="Email" class="email" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="field input-field">
+                    <input asp-for="Input.PhoneNumber" type="text" placeholder="Номер телефону" class="phone" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="field input-field">
+                    <input asp-for="Input.Password" type="password" placeholder="Пароль" class="password" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                <div class="field input-field">
+                    <input asp-for="Input.ConfirmPassword" type="password" placeholder="Повторити пароль" class="password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div class="field button-field">
+                    <button type="submit">Зареєструватись</button>
+                </div>
+
+            </form>
+
+            <div class="form-link">
+                <span>У вас є обліковий запис? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="login-link">Увійти</a></span>
+            </div>
+
+        </div>
+
+        <div class="line"></div>
+
+        @if (!User.IsInRole(WC.AdminRole))
+        {
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                @foreach (var provider in Model.ExternalLogins)
+                {
+                    @if (provider.Name.ToLower().Contains("facebook"))
+                    {
+                        <div class="media-options">
+                            <button class="field facebook" type="submit" name="provider" value="@provider.Name" title="Зареєструватись використовуючи ваш @provider.DisplayName акаунт">
+                                <i class="fab fa-facebook-f log-facebook-icon"></i>Зареєструватись з @provider.DisplayName
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <button type="submit" class="field facebook" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    }
+                }
+            </form>
+        }
+        
+
     </div>
-</div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
