@@ -5,6 +5,9 @@ using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_DataAccess.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SmartStore_Utility;
+using SmartStore_Utility.BrainTree;
+using SmartStore_DataAccess.Initializer;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,8 +30,15 @@ builder.Services.AddSession(Options => {
 });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<BrainTreeSettings>(builder.Configuration.GetSection("BrainTree"));
+builder.Services.AddSingleton<IBrainTreeGate, BrainTreeGate>();
+builder.Services.AddAuthentication().AddFacebook(Options =>
+{
     Options.AppId = "3506896386210049";
     Options.AppSecret = "20040523d6de9dbe4dd10a30bd83ec5c";
+});
+
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 var app = builder.Build();
 
@@ -47,9 +57,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+SeedDatabase();
+
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseSession();
 
 app.MapControllerRoute(
@@ -58,3 +70,12 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}
