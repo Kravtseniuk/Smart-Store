@@ -30,6 +30,7 @@ builder.Services.AddSession(Options => {
 });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+<<<<<<< HEAD
 builder.Services.Configure<BrainTreeSettings>(builder.Configuration.GetSection("BrainTree"));
 builder.Services.AddSingleton<IBrainTreeGate, BrainTreeGate>();
 builder.Services.AddAuthentication().AddFacebook(Options =>
@@ -39,6 +40,8 @@ builder.Services.AddAuthentication().AddFacebook(Options =>
 });
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+=======
+>>>>>>> parent of 8db9618 (Update Program.cs)
 
 var app = builder.Build();
 
