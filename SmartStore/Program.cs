@@ -36,8 +36,6 @@ builder.Services.Configure<BrainTreeSettings>(builder.Configuration.GetSection("
 builder.Services.AddSingleton<IBrainTreeGate, BrainTreeGate>();
 builder.Services.AddAuthentication().AddFacebook(Options =>
 {
-    Options.AppId = "3506896386210049";
-    Options.AppSecret = "20040523d6de9dbe4dd10a30bd83ec5c";
 });
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
