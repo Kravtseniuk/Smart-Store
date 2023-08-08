@@ -4,41 +4,29 @@
     <input asp-for="Id" hidden />
     <div class="border p-3 bg-white mt-4">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="billing-details">
-                        <div class="section-title">
-                            <h3 class="title text-danger">Видалити категорію</h3>
-                        </div>
+        <div class="form-group row text-center mb-4">
+            <h2 class="offset-4 col-8" style="color:#e20707">Видалити категорію</h2>
+            <div class="under-line" style="height: 2px; background-color:#e20707;"></div>
+        </div>
 
-                        <div class="form-group">
-                            <label asp-for="Name"></label>
-                            <input asp-for="Name" disabled class="form-control" />
-                        </div>
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" disabled class="form-control" />
+        </div>
 
+        <div class="form-group">
+            <label asp-for="DisplayOrder"></label>
+            <input asp-for="DisplayOrder" disabled class="form-control" />
+        </div>
 
-                        <div class="form-group">
-                            <label asp-for="DisplayOrder"></label>
-                            <input asp-for="DisplayOrder" disabled class="form-control" />
-                        </div>
+    </div>
 
-                    </div>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 text-center">
-                        <a asp-action="Index" class="primary-button"><i class="fas fa-arrow-left"></i> Повернутись</a>
-                    </div>
-                    <div class="col-md-6 text-center">
-                        <button type="submit" class="delete-button">
-                            <i class="fas fa-trash-alt"></i> Видалити
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <div class="button-container">
+        <div class="buttons">
+            <a asp-action="Index" class="turnback-button"><i class="fas fa-arrow-left"></i> Повернутись</a>
+            <button type="submit" class="delete-button">
+                <i class="fas fa-trash-alt"></i> Видалити
+            </button>
         </div>
     </div>
 
