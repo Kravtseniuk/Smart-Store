@@ -7,74 +7,49 @@
 
     <div class="border p-3 bg-white mt-4">
 
-        <div class="form-group row text-start mb-4">
-            <h2 class="offset-4 col-8" style="color:red">Видалити товар</h2>
-            <div class="line" style="height: 2px; background-color:red;"></div>
-            <hr>
+        <div class="form-group row text-center mb-4">
+            <h2 class="offset-4 col-8" style="color:#e20707">Видалити товар</h2>
+            <div class="under-line" style="height: 2px; background-color:#e20707;"></div>
         </div>
 
         <div class="row">
             <div class="col-8">
-                <div class="form-group row py-2">
-                    <div class="col-4">
-                        <label asp-for="Name"></label>
-                    </div>
-                    <div class="col-8">
-                        <input asp-for="Name" disabled class="form-control" />
-                    </div>
 
-                </div>
-                <div class="form-group row py-2">
-                    <div class="col-4">
-                        <label asp-for="Price"></label>
-                    </div>
-                    <div class="col-8">
-                        <input asp-for="Price" disabled class="form-control" />
-                    </div>
-
-                </div>
-                <div class="form-group row py-2">
-                    <div class="col-4">
-                        <label asp-for="Description"></label>
-                    </div>
-                    <div class="col-8">
-                        <textarea asp-for="Description" class="form-control summernote"></textarea>
-                    </div>
-
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" disabled class="form-control" />
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="col-4">
-                        <label asp-for="CategoryId"></label>
-                    </div>
-                    <div class="col-8">
-                        <input asp-for="Category.Name" disabled class="form-control" />
-                    </div>
-
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" disabled class="form-control" />
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="col-8 offset-4 row">
-
-                        <div class="col">
-
-                            <button type="submit" class="btn btn-danger w-100">Delete</button>
-
-
-                        </div>
-                        <div class="col">
-                            <a asp-action="Index" class="btn btn-success w-100"><i class="fas fa-sign-out-alt"></i> Back</a>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description" disabled class="form-control" />
                 </div>
-            </div>
-            <div class="col-4 ">
-                @* Keep this empty *@
+
+                <div class="image-select-form">
+                    <label asp-for="CategoryId"></label>
+                    <input asp-for="Category.Name" disabled class="form-control" />
+                </div>
+
                 @if (Model.Id != 0)
                 {
-                    <img src="@WC.ImagePath@Model.Image" class="w-100" style="border-radius:5px; border:1px solid #bbb" />
+                    <img src="@WC.ImagePath@Model.Image" style="max-width: 300px; height: auto; border-radius: 5px; border: 1px solid #bbb;" />
                 }
+
             </div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <div class="buttons">
+            <a asp-action="Index" class="turnback-button"><i class="fas fa-arrow-left"></i> Повернутись</a>
+            <button type="submit" class="delete-button">
+                <i class="fas fa-trash-alt"></i> Видалити
+            </button>
         </div>
     </div>
 

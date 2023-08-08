@@ -5,103 +5,85 @@
     
     <div class="border p-3 bg-white mt-4">
         
-        <div class="form-group row text-start mb-4">
+        <div class="form-group row text-center mb-4">
             <h2 class="offset-4 col-8" style="color:limegreen">Створити товар</h2>
-            <div class="line" style="height: 2px; background-color:limegreen;"></div>
-            <hr>
+            <div class="under-line" style="height: 2px; background-color:limegreen;"></div>
         </div>
 
         <div class="row">
             <div class="col-8">
                 
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <label asp-for="Product.Name"></label>
-                        <input asp-for="Product.Name" class="form-control" />
-                        <span asp-validation-for="Product.Name" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="Product.Name"></label>
+                    <input asp-for="Product.Name" class="form-control" />
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
                 </div>
 
-
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <label asp-for="Product.Brand"></label>
-                        <input asp-for="Product.Brand" class="form-control" />
-                        <span asp-validation-for="Product.Brand" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="Product.Brand"></label>
+                    <input asp-for="Product.Brand" class="form-control" />
+                    <span asp-validation-for="Product.Brand" class="text-danger"></span>
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <label asp-for="Product.Price"></label>
-                        <input asp-for="Product.Price" class="form-control" />
-                        <span asp-validation-for="Product.Price" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="Product.Price"></label>
+                    <input asp-for="Product.Price" class="form-control" />
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <div id="attributes-container">
-                            <div class="attribute-inputs">
-                                <label asp-for="Product.ProductAttributes">Характеристики</label>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <input type="text" name="Product.ProductAttributes[0].AttributeNameAndValue" class="form-control" placeholder="Приклад: Максимальна тактова частота: 4.4 ГГц">
-                                    </div>
-                                    <div class="ml-2">
-                                        <button type="button" class="btn btn-info" id="add-attribute-btn">Додати <i class="fas fa-plus"></i></button>
-                                    </div>
+                <div class="form-group">
+                    <div id="attributes-container">
+                        <div class="attribute-inputs">
+                            <label class="pb-2" asp-for="Product.ProductAttributes">Характеристики</label>
+                            <button type="button" class="btn btn-info" id="add-attribute-btn"><i class="fas fa-plus"></i></button>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <input type="text" name="Product.ProductAttributes[0].AttributeNameAndValue" class="form-control" placeholder="Приклад: Максимальна тактова частота: 4.4 ГГц">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <label asp-for="Product.Description"></label>
-                        <textarea asp-for="Product.Description" class="form-control summernote"></textarea>
-                        <span asp-validation-for="Product.Description" class="text-danger"></span>
-                    </div>
+
+                <div class="form-group">
+                    <label asp-for="Product.Description"></label>
+                    <textarea asp-for="Product.Description" class="form-control summernote"></textarea>
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        Фото товару
-                        <input type="file" name="files" id="uploadBox" multiple class="form-select" />
-                    </div>
+
+                <div class="image-select-form">
+                    <label asp-for="Product.Image">Фото товару</label>
+                    <input type="file" name="files" id="uploadBox" multiple class="form-select"/>
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="offset-4 col-8">
-                        <label asp-for="Product.CategoryId"></label>
-                        <select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-select">
-                            <option disabled selected>--Вибрати Категорію--</option>
-                        </select>
-                        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-                    </div>
+
+                <div class="image-select-form">
+                    <label asp-for="Product.CategoryId"></label>
+                    <select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-select">
+                        <option disabled selected>--Вибрати Категорію--</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group row py-2">
-                    <div class="col-8 offset-4 row">
-
-                        <div class="col">
-                            <a asp-action="Index" class="btn btn-primary w-100"><i class="fas fa-arrow-left"></i> Повернутись</a>
-                        </div>
-
-                        <div class="col">
-                            <input type="submit" onclick="return validateInput()" class="btn btn-success w-100 create-button" value="Створити" />
-                        </div>
-                    
-                    </div>
-                </div>
             </div>
+
             <div class="col-4 ">
                 @if (Model.Product.Id != 0)
                 {
                     <img src="@WC.ImagePath@Model.Product.Image" width="100%" style="border-radius:5px; border:1px solid #bbb" />
                 }
             </div>
+
+        </div>
+    </div>
+    <div class="button-container">
+        <div class="buttons">
+            <a asp-action="Index" class="turnback-button"><i class="fas fa-arrow-left"></i> Повернутись</a>
+            <button type="submit" onclick="return validateInput()" class="success-button">
+                Створити
+            </button>
         </div>
     </div>
 
