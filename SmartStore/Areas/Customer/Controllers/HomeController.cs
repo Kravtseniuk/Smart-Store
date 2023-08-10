@@ -21,14 +21,31 @@ namespace SmartStore.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString = null)
         {
-            HomeVM homeVM = new()
+            if (!string.IsNullOrEmpty(searchString))
             {
-                Products = _unitOfWork.Product.GetAll(includeProperties: "Category"),
-                Categories = _unitOfWork.Category.GetAll()
-            };
-            return View(homeVM);
+                HomeVM homeVM = new()
+                {
+                    SearchResults = _unitOfWork.Product.SearchProductsByName(searchString),
+                    Categories = _unitOfWork.Category.GetAll()
+                };
+                return View(homeVM);
+            }
+            else
+            {
+                HomeVM homeVM = new()
+                {
+                    Products = _unitOfWork.Product.GetAll(includeProperties: "Category"),
+                    Categories = _unitOfWork.Category.GetAll()
+                };
+                return View(homeVM);
+            }
+        }
+
+        public IActionResult GetAutocompleteResult(string searchString)
+        {
+            return Json(_unitOfWork.Product.SearchProductsByName(searchString));
         }
 
         public IActionResult Details(int id)

@@ -12,5 +12,6 @@ namespace SmartStore_Models.ViewModels
         public IEnumerable<Product> Products { get; set; }
         public IEnumerable<Category> Categories { get; set; }
         public IEnumerable<ProductAttribute> ProductAttributes { get; set; }
+        public IEnumerable<Product> SearchResults { get; set; }
     }
 }

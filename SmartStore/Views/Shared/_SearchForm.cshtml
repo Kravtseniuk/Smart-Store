@@ -1,0 +1,56 @@
+﻿<div class="col-md-6">
+    <div class="header-search" id="autocomplete-wrapper">
+        <form asp-area="Customer" asp-controller="Home" asp-action="Index" id="search-form">
+            <input class="search-input" id="input-box" autocomplete="off" name="searchString" placeholder="Я шукаю...">
+            <button class="search-btn">Пошук</button>
+        </form>
+    </div>
+    <ul id="autocomplete-results" class="autocomplete-results"></ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var jq = jQuery.noConflict();
+    jq(document).ready(function () {
+        jq('#input-box').on('input', function () {
+            var searchString = jq(this).val();
+            if (searchString.length >= 2) {
+                jq.ajax({
+                    url: '/Customer/Home/GetAutocompleteResult',
+                    type: 'GET',
+                    data: { searchString: searchString },
+                    dataType: 'json',
+                    success: function (data) {
+                        var autocompleteResults = jq('#autocomplete-results');
+                        autocompleteResults.empty();
+                        jq.each(data, function (index, item) {
+                            autocompleteResults.append('<li>' + item.name + '</li>');
+                        });
+                        autocompleteResults.show();
+                    }
+                });
+            } else {
+                jq('#autocomplete-results').hide();
+            }
+        });
+
+        jq(document).on('click', '#autocomplete-results li', function () {
+            var selectedValue = jq(this).text();
+            jq('#input-box').val(selectedValue);
+            jq('#autocomplete-results').hide();
+        });
+
+        jq(document).on('keyup', function (e) {
+            if (e.keyCode === 27) {
+                jq('#autocomplete-results').hide();
+            }
+        });
+
+        jq(document).on('click', function (e) {
+            if (!jq(e.target).closest('#autocomplete-wrapper').length) {
+                jq('#autocomplete-results').hide();
+            }
+        });
+    });
+</script>

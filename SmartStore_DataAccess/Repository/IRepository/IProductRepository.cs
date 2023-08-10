@@ -12,5 +12,6 @@ namespace SmartStore_DataAccess.Repository.IRepository
     {
         void Update(Product obj);
         IEnumerable<SelectListItem> GetAllDropdownList(string obj);
+        IEnumerable<Product> SearchProductsByName(string search);
     }
 }

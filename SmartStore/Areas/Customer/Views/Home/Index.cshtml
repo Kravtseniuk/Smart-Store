@@ -1,30 +1,39 @@
 ﻿@model SmartStore_Models.ViewModels.HomeVM
 
-<div class="col-md-12 pt-4">
-
-    <div class="col-12 text-center pb-4">
-        <button class="btn btn-dark filter-button" data-filter="all">Всі категорії</button>
-        @foreach (var obj in Model.Categories)
-        {
-            <button class="btn btn-outline-secondary filter-button" data-filter="@obj.Name.Replace(' ','_')">
-                @obj.Name
-            </button>
-        }
+<nav id="navigation">
+    <div class="container">
+        <div id="responsive-nav">
+            
+            <ul class="main-nav nav navbar-nav">
+                <li><a href="#" class="filter-button" data-filter="all">Всі категорії</a></li>
+                @foreach (var obj in Model.Categories)
+                {
+                    <li><a href="#" class="filter-button" data-filter="@obj.Name.Replace(' ','_')">@obj.Name</a></li>
+                }
+            </ul>
+        
+        </div>
     </div>
-    
-    <div class="row">
+</nav>
+
+<div class="row">
+    @if (Model.SearchResults != null && Model.SearchResults.Any())
+    {
+        foreach (var prod in Model.SearchResults)
+        {
+            <partial name="_IndividualProductCard" model="prod" />
+        }
+    }
+    else
+    {
         @foreach (var prod in Model.Products)
         {
             <partial name="_IndividualProductCard" model="prod" />
         }
-    </div>
-
+    }
 </div>
 
 @section Scripts{
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
         $(document).ready(function () {
 
@@ -40,7 +49,6 @@
 
                 }
             });
-
         });
     </script>
 }
