@@ -16,4 +16,4 @@ Smart Store Customer allows you to:
 - Create a personal account.
 - Place orders.
 
-![](https://github.com/Kravtseniuk/Smart-Store/raw/ca25c9f0d30a36a7b25f1cbbfc2b1a4ebd15c4d6/path/to/screenshot.png)
+![Project Screenshot](https://github.com/Kravtseniuk/Smart-Store/raw/main/SmartStore/wwwroot/images/screenshots/screenshot_1.png)
