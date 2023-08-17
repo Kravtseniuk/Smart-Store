@@ -32,6 +32,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label asp-for="Product.DiscountPrice"></label>
+                    <input asp-for="Product.DiscountPrice" placeholder="Не обов'язково" class="form-control" />
+                    <span asp-validation-for="Product.DiscountPrice" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
                     <div id="attributes-container">
                         <div class="attribute-inputs">
                             <label class="pb-2" asp-for="Product.ProductAttributes">Характеристики</label>

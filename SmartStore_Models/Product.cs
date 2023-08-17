@@ -32,7 +32,10 @@ namespace SmartStore_Models
         [DisplayName("Ціна")]
         public double Price { get; set; }
 
-        [ValidateNever]
+		[DisplayName("Ціна зі знижкою")]
+		public double? DiscountPrice { get; set; }
+
+		[ValidateNever]
         [DisplayName("Фото")]
         public string Image { get; set; }
 
