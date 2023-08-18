@@ -22,30 +22,6 @@
                                         <span class="text-info">Ваші контактні дані:</span>
                                     </h4>
                                 </div>
-                                @*<div class="row my-1">
-                                    <div class="col-3">
-                                        <label>Name</label>
-                                    </div>
-                                    <div class="col-9">
-                                        <input asp-for="ApplicationUser.FullName" type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="row my-1">
-                                    <div class="col-3">
-                                        <label>Phone</label>
-                                    </div>
-                                    <div class="col-9">
-                                        <input asp-for="ApplicationUser.PhoneNumber" required type="text" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="row my-1">
-                                    <div class="col-3">
-                                        <label>Email</label>
-                                    </div>
-                                    <div class="col-9">
-                                        <input asp-for="ApplicationUser.Email" required type="text" class="form-control" />
-                                    </div>
-                                </div>*@
 
                             <div class="row my-1" style="margin-top: 20px;">
                                 <div class="col-3">
@@ -125,26 +101,60 @@
                                         {
                                             <input type="hidden" asp-for="@Model.ProductList[i].Id" />
                                             <input type="hidden" asp-for="@Model.ProductList[i].Name" />
-                                            <input type="hidden" asp-for="@Model.ProductList[i].Price" />
+
+                                            if (Model.ProductList[i].DiscountPrice != null)
+                                            {
+                                                <input type="hidden" asp-for="@Model.ProductList[i].DiscountPrice" />
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" asp-for="@Model.ProductList[i].Price" />
+                                            }
+
                                             <input type="hidden" asp-for="@Model.ProductList[i].TempQuantity" />
                                             <li class="list-group-item d-flex justify-content-between">
+
                                                 <div>
                                                     <h5 class="my-0">@Model.ProductList[i].Name</h5>
+
                                                     @if (User.IsInRole(SmartStore_Utility.WC.AdminRole))
                                                     {
                                                         <span class="text-muted">Кількість: @Model.ProductList[i].TempQuantity</span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="text-muted">Ціна: @Model.ProductList[i].Price.ToString("N0") ₴</span>
+                                                        if (Model.ProductList[i].DiscountPrice != null)
+                                                        {
+                                                            <span class="text-muted">Ціна: @string.Format("{0:N0} ₴", Model.ProductList[i].DiscountPrice)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted">Ціна: @Model.ProductList[i].Price.ToString("N0") ₴</span>
+                                                        }
                                                     }
+
                                                 </div>
                                                 @if (User.IsInRole(SmartStore_Utility.WC.AdminRole))
                                                 {
-                                                    <span class="text-muted">@(Model.ProductList[i].Price * Model.ProductList[i].TempQuantity)</span>
+                                                    if (Model.ProductList[i].DiscountPrice != null)
+                                                    {
+                                                        <span class="text-muted">Ціна: @string.Format("{0:N0} ₴", Model.ProductList[i].DiscountPrice)</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">Ціна: @Model.ProductList[i].Price.ToString("N0") ₴</span>
+                                                    }
                                                 }
                                             </li>
-                                            orderTotal += Model.ProductList[i].Price * Model.ProductList[i].TempQuantity;
+
+                                            if (Model.ProductList[i].DiscountPrice.HasValue && Model.ProductList[i].Price != 0)
+                                            {
+                                                orderTotal += Model.ProductList[i].DiscountPrice.Value * Model.ProductList[i].TempQuantity;
+                                            }
+                                            else
+                                            {
+                                                orderTotal += Model.ProductList[i].Price * Model.ProductList[i].TempQuantity;
+                                            }
                                         }
 
                                         <li class="list-group-item d-flex justify-content-between bg-light">
@@ -244,65 +254,3 @@
         }
     </script>
 }
-
-
-@*@section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-    <script src="https://js.braintreegateway.com/web/dropin/1.22.1/js/dropin.min.js"></script>
-    <script>
-        var client_token = "@ViewBag.ClientToken";
-        var form = document.querySelector('#payment-form');
-
-        braintree.dropin.create({
-            authorization: client_token,
-              container: '#dropin-container'
-            }, function (createErr, instance) {
-                    form.addEventListener('submit', function () {
-                        event.preventDefault();
-
-                        //Add the nonce to the form and submit
-                                instance.requestPaymentMethod(function (err, payload) {
-                                    // Submit payload.nonce to your server
-                                    document.querySelector('#nonce').value = payload.nonce;
-                                    form.submit();
-                                });
-                    });
-        });
-
-
-        function validateInput() {
-            var app_name = document.getElementById("ApplicationUser_FullName").value;
-            var app_phone = document.getElementById("ApplicationUser_PhoneNumber").value;
-            var app_email = document.getElementById("ApplicationUser_Email").value;
-
-            if (app_name.toString() == '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please enter Full Name!'
-                })
-                return false;
-            }
-            if (app_phone.toString() == '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please enter Phone Number!'
-                })
-                return false;
-            }
-            if (app_email.toString() == '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please enter Email!'
-                })
-                return false;
-            }
-
-            return true;
-
-        }
-    </script>
-   
-}*@

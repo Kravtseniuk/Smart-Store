@@ -6,13 +6,36 @@
 		<div class="product-img">
 			<img src="@WC.ImagePath@Model.Image" alt="">
 			<div class="product-label">
-				<span class="sale">-30%</span>
-				<span class="new">NEW</span>
+
+				@{
+					var discount = 0.0;
+					if (Model.DiscountPrice.HasValue && Model.Price != 0)
+					{
+						discount = ((Model.Price - Model.DiscountPrice.Value) / Model.Price) * 100;
+					}
+				}
+
+				@if (discount > 0)
+				{
+					int discountPercentage = (int)Math.Floor(discount);
+					<span class="sale">-@discountPercentage%</span>
+				}
+
+				<span class="new">НОВИЙ</span>
+
 			</div>
 		</div>
 		<div class="product-body">
 			<h3 class="product-name"><a asp-action="Details" asp-route-id="@Model.Id">@Model.Name</a></h3>
-			<h4 class="product-price">@Model.Price.ToString("N0") ₴ <del class="product-old-price">$990.00</del></h4>
+			
+			@if (Model.DiscountPrice == null)
+			{
+				<h4 class="product-price">@Model.Price.ToString("N0") ₴</h4>
+			}else
+			{
+				<h4 class="product-price">@string.Format("{0:N0} ₴", Model.DiscountPrice) <del class="product-old-price">@Model.Price.ToString("N0") ₴</del></h4>
+			}
+			
 			<div class="product-rating">
 				<i class="fa fa-star"></i>
 				<i class="fa fa-star"></i>

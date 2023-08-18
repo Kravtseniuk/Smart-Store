@@ -1,7 +1,7 @@
 ﻿@using SmartStore_Utility;
 @model SmartStore_Models.ViewModels.DetailsVM
 
-<div class="">
+@*<div class="container">
     <form method="post">
         <input asp-for="@Model.Product.Id" hidden />
         <div class="container backgroundWhite pt-4">
@@ -71,4 +71,135 @@
             </div>
         </div>
     </form>
-</div>
+</div>*@
+
+<form method="post">
+    <input asp-for="@Model.Product.Id" hidden />
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<img src="@WC.ImagePath@Model.Product.Image" width="100%" class="rounded" />
+				</div>
+
+				<div class="col-md-6">
+					<div class="product-details">
+						<h2 class="product-name">@Model.Product.Name</h2>
+						<div>
+							<div class="product-rating">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o"></i>
+							</div>
+							<a class="review-link" href="#">Відгуки | Ваш відгук</a>
+						</div>
+						<div>
+							
+							@if (Model.Product.DiscountPrice == null)
+							{
+								<h4 class="product-price">@Model.Product.Price.ToString("N0") ₴</h4>
+							}
+							else
+							{
+								<h4 class="product-price">@string.Format("{0:N0} ₴", Model.Product.DiscountPrice) <del class="product-old-price">@Model.Product.Price.ToString("N0") ₴</del></h4>
+							}
+
+						</div>
+
+						<div class="add-to-cart">
+							<div class="qty-label">
+								Кількість
+								<div class="input-number">
+									<input type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+							</div>
+							<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> додати в кошик</button>
+						</div>
+
+						<ul class="product-btns">
+							<li><a href="#"><i class="fas fa-heart"></i> додати до списку бажань</a></li>
+							<li><a href="#"><i class="fas fa-exchange-alt"></i> додати для зрівняння</a></li>
+						</ul>
+
+						<ul class="product-links">
+							<li>Категорія:</li>
+							<li><a href="#">@Model.Product.Category.Name</a></li>
+						</ul>
+
+						<ul class="product-links">
+							<li>Поділитись:</li>
+							<li><a href="#"><i class="fab fa-facebook"></i></a></li>
+							<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+							<li><a href="#"><i class="fab fa-google-plus"></i></a></li>
+							<li><a href="#"><i class="fa fa-envelope"></i></a></li>
+						</ul>
+
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div id="product-tab">
+
+						<ul class="tab-nav">
+							<li class="active"><a data-toggle="tab" href="#tab1">Опис</a></li>
+							<li><a data-toggle="tab" href="#tab2">Характеристики</a></li>
+						</ul>
+						
+						<div class="tab-content">
+							
+							<div id="tab1" class="tab-pane fade in active">
+								<div class="row">
+									<div class="col-md-12">
+										<p>@Html.Raw(Model.Product.Description)</p>
+									</div>
+								</div>
+							</div>
+							
+							<div id="tab2" class="tab-pane fade in">
+								<div class="row">
+									<div class="col-md-12">
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+</form>
+
+@section Scripts{
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('.tab-nav a').on('click', function (e) {
+				e.preventDefault();
+
+				$('.tab-nav li').removeClass('active');
+
+				$(this).parent().addClass('active');
+
+				var targetTab = $(this).attr('href');
+
+				$('.tab-content .tab-pane').hide();
+
+				$(targetTab).fadeIn('slow');
+			});
+
+			$('.tab-nav li:first-child a').trigger('click');
+		});
+	</script>
+}
+

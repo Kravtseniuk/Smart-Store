@@ -1,81 +1,218 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using SmartStore_Models;
+@using SmartStore_Utility;
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SmartStore</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SmartStore.styles.css" asp-append-version="true" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/22.1.34/fluent.css" />
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
-   
-    <header>
-        <nav class="navbar navbar-expand-lg back-hf-color" data-bs-theme="light">
-            <div class="container">
 
-                <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="navbar-brand text-light">SMARTSTORE.UA</a>
+	<header>
+		<div id="top-header">
+			<div class="container">
+				<ul class="header-links pull-left">
+					<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+					<li><a href="#"><i class="fas fa-envelope"></i> company@gmail.com</a></li>
+					<li><a href="#"><i class="fas fa-map-marker-alt"></i> 1734 Stonecoal Road</a></li>
+				</ul>
+				<ul class="header-links pull-right">
+					<li><a href="#"><i class="fas fa-hryvnia"></i> UAH</a></li>
+					<partial name="_LoginPartial" />
+				</ul>
+			</div>
+		</div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="dropdown">
-                    <div class="dropdown-select">Адмін</div>
-                    <ul class="dropdown-list">
-                        <li><a asp-area="Admin" asp-controller="Category" asp-action="Index">Категорії</a></li>
-                    </ul>
-                </div>
+		<div id="header">
+			<div class="container">
+				<div class="row">
+					
+					<div class="col-md-3">
+						<div class="header-logo">
+							<a asp-area="Customer" asp-controller="Home" asp-action="Index" class="logo">
+								<h2>SMART STORE</h2>
+							</a>
+						</div>
+					</div>
 
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav me-auto">
-                        <form class="d-flex">
-                            <input class="form-control" type="search" placeholder="Я шукаю...">
-                            <button class="btn btn-success sharp-button" type="submit">Знайти</button>
-                        </form>
-                    </ul>
-                </div>
+					@await Html.PartialAsync("_SearchForm", new SmartStore_Models.ViewModels.HomeVM())
 
-                <div class="message-icon-container">
-                    <a asp-action="Index" asp-controller="Wishlist">
-                        <i class="fas fa-shopping-cart cart-icon"></i>
-                    </a>
-                </div>
+					<div class="col-md-3 clearfix">
+						<div class="header-ctn">
+							<div>
+								<a href="#">
+									<i class="fas fa-heart" style="font-size:20px;"></i>
+								</a>
+							</div>
 
-                <div class="message-icon-container">
-                    <a asp-action="Index" asp-controller="Wishlist">
-                        <i class="fas fa-heart heart-icon"></i>
-                    </a>
-                </div>
+							<div class="dropdown">
+								@if (HttpContextAccessor.HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart) != null)
+								{
+									<a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										@{
+											var count = HttpContextAccessor.HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart).Count;
+										}
+										<i class="fa fa-shopping-cart" style="font-size:20px;"></i>
+										<div class="qty">@count</div>
+									</a>
+								}
+								else
+								{
+									<a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<i class="fa fa-shopping-cart" style="font-size:20px;"></i>
+									</a>
+								}
+							</div>
 
-                <div class="message-icon-container">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index">
-                        <i class="fas fa-user user-icon"></i>
-                    </a>
-                </div>
+							<div class="menu-toggle">
+								<a href="#">
+									<i class="fa fa-bars"></i>
+									<span>Меню</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 
-            </div>
-        </nav>
-    </header>
+	@if (User.IsInRole(WC.AdminRole))
+	{
+		<nav class="admin-navigation">
+			<div class="container">
+				<div id="responsive-nav">
+					<ul class="main-nav nav navbar-nav">
+						<li class="admin-title"><a href="#">Консоль Адміністратора</a></li>
+						<li><a asp-area="Admin" asp-controller="Category" asp-action="Index">Категорії</a></li>
+						<li><a asp-area="Admin" asp-controller="Product" asp-action="Index">Товари</a></li>
+						<li><a asp-area="Admin" asp-controller="Inquiry" asp-action="Index">Заявки на товар</a></li>
+						<li><a asp-area="Admin" asp-controller="Order" asp-action="Index">Управління замовленнями</a></li>
+						<li><a asp-area="Identity" asp-page="/Account/Register">Додати адміністратора</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	}
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+	<div class="wrapper">
+		<div class="container">
+			<main role="main" class="pb-3">
+				<partial name="_Notifications" />
+				@RenderBody()
+			</main>
+		</div>
+	</div>
 
-    <footer class="border-top footer text-muted back-hf-color">
-        <div class="container">
-            &copy; 2023 - SmartStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<footer id="footer">
+
+		<div class="section">
+			
+			<div class="container">
+				
+				<div class="row">
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+							<h3 class="footer-title">Про Нас</h3>
+							<p>Ми продаємо за справедливою ціною та надаємо гарантію, бо вважаємо, що онлайн-шопінг має бути максимально зручним і безпечним.</p>
+							<ul class="footer-links">
+								<li><a href="#"><i class="fas fa-map-marker-alt"></i> 1734 Stonecoal Road</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
+								<li><a href="#"><i class="fas fa-envelope"></i> smartstore@gmail.com</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+							<h3 class="footer-title">Категорії</h3>
+							<ul class="footer-links">
+								<li><a href="#">Hot deals</a></li>
+								<li><a href="#">Laptops</a></li>
+								<li><a href="#">Smartphones</a></li>
+								<li><a href="#">Cameras</a></li>
+								<li><a href="#">Accessories</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="clearfix visible-xs"></div>
+
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+							<h3 class="footer-title">Інформація</h3>
+							<ul class="footer-links">
+								<li><a href="#">Про Нас</a></li>
+								<li><a href="#">Зв'язатись з Нами</a></li>
+								<li><a href="#">Політика Конфіденційності</a></li>
+								<li><a href="#">Замовлення та Повернення</a></li>
+								<li><a href="#">Правила та Умови</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-3 col-xs-6">
+						<div class="footer">
+							<h3 class="footer-title">Сервіси</h3>
+							<ul class="footer-links">
+								<li><a href="#">Мій Акаунт</a></li>
+								<li><a href="#">Переглянути Кошик</a></li>
+								<li><a href="#">Список Вподобань</a></li>
+								<li><a href="#">Відслідкувати Замовлення</a></li>
+								<li><a href="#">Допомога</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<div id="bottom-footer" class="section">
+			<div class="container">
+				
+				<div class="row">
+					<div class="col-md-12 text-center">
+
+						<span class="copyright">
+							Copyright © <script>document.write(new Date().getFullYear());</script> All rights reserved
+						</span>
+
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.syncfusion.com/ej2/22.1.34/dist/ej2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+    <ejs-scripts></ejs-scripts>
 </body>
 </html>

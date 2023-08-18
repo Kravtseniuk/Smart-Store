@@ -2,50 +2,51 @@
 
 @*<partial name="_Notification" />*@
 
-<div class="container p-3 bg-white mt-4">
+<div class="add-heder-container">
 
-    <div class="add-heder-container">
+    <h2>Список категорій</h2>
 
-        <h2 class="text-primary">Список товарів</h2>
-        
-        <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
-            <i class="fas fa-plus"></i> &nbsp; Створити нову категорію
-        </a>
-    </div>
-
-    <br /><br />
-
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        Назва категорії
-                    </th>
-                    <th>
-                        Порядок відображення
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
-                {
-                    <tr>
-                        <td>@obj.Name</td>
-                        <td>
-                            @obj.DisplayOrder
-                        </td>
-                        <td class="text-center">
-                            <div class="w-75 btn-group" role="group">
-                                <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-                                    <i class="far fa-trash-alt"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <a asp-controller="Category" asp-action="Create" class="success-button">
+        <i class="fas fa-plus"></i> &nbsp; Створити нову категорію
+    </a>
 </div>
+
+<br />
+<br />
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Назва категорії
+            </th>
+            <th class="text-center">
+                Порядок відображення
+            </th>
+            <th class="text-center">
+                Дії
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
+        {
+            <tr>
+                <td width="55%" style="display: table-cell; vertical-align: middle;">@obj.Name</td>
+                <td class="text-center" style="display: table-cell; vertical-align: middle;">
+                    @obj.DisplayOrder
+                </td>
+                <td class="text-center">
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="edit-button-icon">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="delete-button-icon">
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -4,7 +4,7 @@
 @if (Model.Count() > 0)
 {
     <form method="post">
-        <br/>
+        <br />
         <div class="col -8">
             <div class="card mt-4">
 
@@ -20,42 +20,73 @@
                     @{
                         var orderTotal = 0.0;
                     }
+
                     @for (int i = 0; i < Model.Count(); i++)
                     {
                         <input hidden asp-for="@Model[i].Id" />
-                        <div class="row h-100">
+                        
+                        <div class="cart-item-box">
+                            
                             <div class="col-4 col-md-2 text-center py-2">
                                 <img src="@WC.ImagePath@Model[i].Image" class="rounded" width="100%" />
                             </div>
 
-                            <div class="col-8 col-lg-7">
+                            <div class="col-lg-7">
                                 <h5>@Model[i].Name</h5>
-                                <div style="font-size:11px;">ShortDesc</div>
                             </div>
 
-                            <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
-                                <span style="font-size:17px;"> @Model[i].Price $</span>
-
-                            </div>
                             @if (User.IsInRole(WC.AdminRole))
                             {
                                 <div class="col-4 col-lg-2 pt-lg-4" style="font-size:11px;">
                                     <input type="text" asp-for="@Model[i].TempQuantity" class="form-control" />
                                     <span asp-validation-for="@Model[i].TempQuantity" class="text-danger"></span>
                                 </div>
+                            }
+
+                            @if (Model[i].DiscountPrice != null)
+                            {
                                 <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
-                                    <span style="font-size:17px;"> $@(Model[i].Price * Model[i].TempQuantity)</span>
-
-
+                                    <span style="font-size:17px;"> @string.Format("{0:N0} ₴", Model[i].DiscountPrice)</span>
                                 </div>
                             }
+                            else
+                            {
+                                <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
+                                    <span style="font-size:17px;"> @Model[i].Price.ToString("N0") ₴</span>
+                                </div>
+                            }
+
+                            
+                            @* if (Model[i].DiscountPrice != null)
+                            {
+                                <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
+                                    <span style="font-size:17px;"> @(Model[i].DiscountPrice * Model[i].TempQuantity)</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
+                                    <span style="font-size:17px;"> @(Model[i].Price * Model[i].TempQuantity)</span>
+                                </div>
+                            } *@
+
                             <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
-                                <a asp-action="Remove" asp-route-id="@Model[i].Id" class="btn btn-outline-danger">
+                                <a asp-action="Remove" asp-route-id="@Model[i].Id" class="delete-button-icon">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
                         </div>
-                        orderTotal += Model[i].Price * Model[i].TempQuantity;
+
+
+                        if (Model[i].DiscountPrice.HasValue && Model[i].Price != 0)
+                        {
+                            orderTotal += Model[i].DiscountPrice.Value * Model[i].TempQuantity;
+                        }
+                        else
+                        {
+                            orderTotal += Model[i].Price * Model[i].TempQuantity;
+                        }
+
                         <hr />
                     }
 
