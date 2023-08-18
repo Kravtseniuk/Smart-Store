@@ -1,4 +1,5 @@
 ﻿using Braintree;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using SmartStore_DataAccess.Repository.IRepository;
@@ -11,6 +12,7 @@ using System.Text;
 
 namespace SmartStore.Areas.Customer.Controllers
 {
+    [Authorize]
     [Area("Customer")]
     public class CartController : Controller
     {

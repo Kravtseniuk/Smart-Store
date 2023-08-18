@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartStore_DataAccess.Repository.IRepository;
 using SmartStore_Models;
 using SmartStore_Utility;
@@ -6,6 +7,7 @@ using SmartStore_Utility;
 namespace SmartStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = WC.AdminRole)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

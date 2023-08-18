@@ -1,4 +1,5 @@
 ﻿using Braintree;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SmartStore_DataAccess.Repository.IRepository;
@@ -10,6 +11,7 @@ using SmartStore_Utility.BrainTree;
 namespace SmartStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = WC.AdminRole)]
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
