@@ -45,9 +45,18 @@
 					
 					<div class="col-md-3">
 						<div class="header-logo">
+
+							@if (User.IsInRole(WC.AdminRole))
+							{
+								<button class="sidebar-toggle" id="sidebarToggle">
+									<i class="fa fa-bars"></i>
+								</button>
+							}
+
 							<a asp-area="Customer" asp-controller="Home" asp-action="Index" class="logo">
 								<h2>SMART STORE</h2>
 							</a>
+
 						</div>
 					</div>
 
@@ -95,20 +104,19 @@
 
 	@if (User.IsInRole(WC.AdminRole))
 	{
-		<nav class="admin-navigation">
-			<div class="container">
-				<div id="responsive-nav">
-					<ul class="main-nav nav navbar-nav">
-						<li class="admin-title"><a href="#">Консоль Адміністратора</a></li>
-						<li><a asp-area="Admin" asp-controller="Category" asp-action="Index">Категорії</a></li>
-						<li><a asp-area="Admin" asp-controller="Product" asp-action="Index">Товари</a></li>
-						<li><a asp-area="Admin" asp-controller="Inquiry" asp-action="Index">Заявки на товар</a></li>
-						<li><a asp-area="Admin" asp-controller="Order" asp-action="Index">Управління замовленнями</a></li>
-						<li><a asp-area="Identity" asp-page="/Account/Register">Додати адміністратора</a></li>
-					</ul>
-				</div>
+		<div class="admin-sidebar" id="adminSidebar">
+			<div class="sidebar-header">
+				<h3>Консоль адміністратора</h3>
 			</div>
-		</nav>
+
+			<ul class="sidebar-nav">
+				<li><a asp-area="Admin" asp-controller="Category" asp-action="Index"><i class="fas fa-list"></i> Категорії</a></li>
+				<li><a asp-area="Admin" asp-controller="Product" asp-action="Index"><i class="fas fa-box"></i> Товари</a></li>
+				<li><a asp-area="Admin" asp-controller="Inquiry" asp-action="Index"><i class="fas fa-envelope-open-text"></i> Заявки на товар</a></li>
+				<li><a asp-area="Admin" asp-controller="Order" asp-action="Index"><i class="fas fa-shopping-bag"></i> Управління замовленнями</a></li>
+				<li><a asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-user-plus"></i> Додати адміністратора</a></li>
+			</ul>
+		</div>
 	}
 
 	<div class="wrapper">
@@ -122,7 +130,7 @@
 
 	<footer id="footer">
 
-		<div class="section">
+		@* <div class="section">
 			
 			<div class="container">
 				
@@ -183,7 +191,7 @@
 				
 			</div>
 			
-		</div>
+		</div> *@
 		
 		<div id="bottom-footer" class="section">
 			<div class="container">
@@ -214,5 +222,6 @@
 
     @await RenderSectionAsync("Scripts", required: false)
     <ejs-scripts></ejs-scripts>
+
 </body>
 </html>
