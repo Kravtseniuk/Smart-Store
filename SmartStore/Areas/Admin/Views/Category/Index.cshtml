@@ -6,9 +6,10 @@
 
     <h2>Список категорій</h2>
 
-    <a asp-controller="Category" asp-action="Create" class="success-button">
-        <i class="fas fa-plus"></i> &nbsp; Створити нову категорію
-    </a>
+    <button class="action-button success-button" onclick="window.location.href='@Url.Action("Create", "Category")'">
+        <i class="fa fa-plus"></i> Створити нову категорію
+    </button>
+
 </div>
 
 <br />

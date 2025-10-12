@@ -1,13 +1,12 @@
 ﻿@using SmartStore_Utility
 @model SmartStore_Models.ViewModels.ProductVM
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" style="margin-top: 30px;">
     
     <div class="border p-3 bg-white mt-4">
         
         <div class="form-group row text-center mb-4">
-            <h2 class="offset-4 col-8" style="color:limegreen">Створити товар</h2>
-            <div class="under-line" style="height: 2px; background-color:limegreen;"></div>
+            <h2 class="offset-4 col-8">Створити товар</h2>
         </div>
 
         <div class="row">
@@ -86,10 +85,16 @@
     </div>
     <div class="button-container">
         <div class="buttons">
-            <a asp-action="Index" class="turnback-button"><i class="fas fa-arrow-left"></i> Повернутись</a>
-            <button type="submit" onclick="return validateInput()" class="success-button">
-                Створити
+
+            <button type="button" class="action-button turnback-button" onclick="window.location.href='@Url.Action("Index", "Product")'">
+                <i class="fas fa-arrow-left"></i> Повернутись
             </button>
+
+            
+            <button type="submit" onclick="return validateInput()" class="action-button success-button">
+                <i class="fa fa-plus"></i> Створити
+            </button>
+
         </div>
     </div>
 

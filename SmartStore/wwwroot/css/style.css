@@ -143,55 +143,99 @@ ul, ol {
     display: flex;
     margin: 0 10px;
     justify-content: flex-end;
+    gap: 10px;
 }
+
+.action-button {
+    position: relative;
+    border: 2px solid transparent;
+    height: 40px;
+    padding: 0 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 40px;
+    transition: 0.2s all;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+}
+
+    .action-button > i {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.2s all;
+    }
+
+    .action-button:hover {
+        background-color: #fff;
+        padding: 0 30px 0 50px;
+    }
+
+        .action-button:hover > i {
+            opacity: 1;
+            visibility: visible;
+        }
 
 .turnback-button {
-    font-size: 15px;
-    background-color: #1E1F29;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 15px; 
-    min-height: 30px;
-    min-width: 120px;
-    margin-left: 10px;
+    background-color: #333399;
 }
+
+    .turnback-button > i {
+        color: #333399;
+    }
+
+    .turnback-button:hover {
+        color: #333399 !important;
+        border-color: #333399;
+    }
 
 .success-button {
-    font-size: 15px;
-    background-color: #06b930;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 15px;
-    min-height: 30px;
-    min-width: 120px;
-    margin-left: 10px;
+    background-color: #28a745;
 }
+
+    .success-button > i {
+        color: #28a745;
+    }
+
+    .success-button:hover {
+        color: #28a745 !important;
+        border-color: #28a745;
+    }
 
 .update-button {
-    font-size: 15px;
-    background-color: #e9aa15;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 15px;
-    min-height: 30px;
-    min-width: 120px;
-    margin-left: 10px;
+    background-color: #FFC107;
 }
 
+    .update-button > i {
+        color: #FFC107;
+    }
+
+    .update-button:hover {
+        color: #FFC107;
+        border-color: #FFC107;
+    }
+
 .delete-button {
-    font-size: 15px;
-    background-color: #e20707;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 15px;
-    min-height: 30px;
-    min-width: 120px;
-    margin-left: 10px;
+    background-color: #D10024;
 }
+
+    .delete-button > i {
+        color: #D10024;
+    }
+
+    .delete-button:hover {
+        color: #D10024;
+        border-color: #D10024;
+    }
+
 
 .exit-button {
     font-size: 15px;
@@ -203,18 +247,6 @@ ul, ol {
     min-height: 30px;
     min-width: 120px;
     margin-left: 10px;
-}
-
-a.turnback-button:hover {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.turnback-button:hover,
-.exit-button:hover,
-.delete-button:hover,
-.update-button:hover,
-.success-button:hover {
-    color: rgba(255, 255, 255, 0.8);
 }
 
 .edit-button-icon {
@@ -2200,9 +2232,10 @@ button.facebook {
 }
 
 .add-heder-container {
+    margin-top: 30px;
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Vertically center the elements within the container (optional) */
+    align-items: center;
 }
 
 /*----------------------------*\
@@ -2602,6 +2635,7 @@ button.facebook {
 #footer {
   background: #15161D;
   color: #B9BABC;
+  margin-top: 30px;
 }
 
 #bottom-footer {

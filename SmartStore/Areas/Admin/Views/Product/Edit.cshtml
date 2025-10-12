@@ -1,14 +1,13 @@
 ﻿@using SmartStore_Utility
 @model SmartStore_Models.ViewModels.ProductVM
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" style="margin-top: 30px;">
 
     <div class="border p-3 bg-white mt-4">
 
         <div class="form-group row text-center mb-4">
             <input asp-for="Product.Id" hidden />
-            <h2 class="offset-4 col-8" style="color:#2c52db">Редагувати товар</h2>
-            <div class="under-line" style="height: 2px; background-color:#2c52db;"></div>
+            <h2 class="offset-4 col-8">Редагувати товар</h2>
         </div>
 
         <div class="row">
@@ -68,8 +67,15 @@
 
     <div class="button-container">
         <div class="buttons">
-            <a asp-action="Index" class="turnback-button"><i class="fas fa-arrow-left"></i> Повернутись</a>
-            <input type="submit" class="update-button" value="Оновити" />
+            
+            <button type="button" class="action-button turnback-button" onclick="window.location.href='@Url.Action("Index", "Product")'">
+                <i class="fas fa-arrow-left"></i> Повернутись
+            </button>
+
+            <button type="submit" class="action-button update-button">
+                <i class="fas fa-sync-alt"></i> Оновити
+            </button>
+
         </div>
     </div>
 

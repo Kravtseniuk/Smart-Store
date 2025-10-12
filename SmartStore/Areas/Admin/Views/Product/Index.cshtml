@@ -2,9 +2,14 @@
 
 <div class="add-heder-container">
     <h2>Список товарів</h2>
-    <a asp-action="Create" class="success-button">
+    @* <a asp-action="Create" class="success-button">
         <i class="fas fa-plus"></i> &nbsp; Додати товар
-    </a>
+    </a> *@
+
+    <button class="action-button success-button" onclick="window.location.href='@Url.Action("Create", "Product")'">
+        <i class="fa fa-plus"></i> додати товар
+    </button>
+
 </div>
 
 <br />
