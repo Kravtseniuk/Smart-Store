@@ -1,13 +1,13 @@
 # 🛒 Smart Store
 
-**Smart Store** is a modern online shop for computer equipment and various electronics, built with **.NET 8** and **Razor Pages**.
+**Smart Store** is a modern online shop for computer equipment and various electronics, built with **.NET 8 Core** and **Razor Pages**.
 
 It provides functionality for both **administrators** and **customers**, offering a complete e-commerce experience.
 
 ---
 
 ## ⚙️ Technologies Used
-- **.NET 8**
+- **.NET 8 Core**
 - **Razor Pages**
 - **Entity Framework Core**
 - **SQL Server**
@@ -53,3 +53,66 @@ The **Customer Portal** provides an intuitive shopping experience:
 ![Screenshot 4](https://github.com/Kravtseniuk/Smart-Store/raw/main/SmartStore/wwwroot/images/screenshots/screenshot_4.png)
 
 ---
+
+## 🧩 Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Kravtseniuk/Smart-Store.git
+2. **Install and configure Microsoft SQL Server**
+3. Ensure that the **.NET 8 SDK** is installed on your system
+
+---
+
+## 🔧 Configuration
+
+#### 1️⃣ Database Connection
+In **appsettings.json**, set your database name:
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=YourDatabaseName;Trusted_Connection=True;MultipleActiveResultSets=true"
+}
+```
+
+#### 2️⃣ Facebook Authentication
+1. Go to Facebook Developers and log in.
+2. Create a new app and copy your App ID and App Secret.
+3. In your **Program.cs**, add:
+```csharp
+builder.Services.AddAuthentication()
+.AddFacebook(options =>
+    {
+        options.AppId = "facebook_app_id";
+        options.AppSecret = "facebook_app_secret";
+    });
+```
+
+#### 3️⃣ MailJet Configuration (Email Notifications)
+1. Create or log in to your MailJet account.
+2. Create a new app and obtain your **API Key and Secret Key**.
+3. Add them to **appsettings.json**:
+```json
+"MailJet": {
+  "ApiKey": "your_api_key",
+  "SecretKey": "your_secret_key"
+}
+```
+
+#### 4️⃣ Braintree Configuration (Payment Integration)
+1. Log in or register at Braintree
+2. Create a Merchant Account and copy your:
+    - Merchant ID
+    - Public Key
+    - Private Key
+3. Add them to **appsettings.json**:
+```json
+"BrainTree": {
+  "Environment": "sandbox",
+  "MerchantId": "your_merchant_id",
+  "PublicKey": "your_public_key",
+  "PrivateKey": "your_private_key"
+}
+```
+
+---
+## ▶️ Run the Application
